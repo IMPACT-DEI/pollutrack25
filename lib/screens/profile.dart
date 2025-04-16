@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
   Profile({super.key});
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
 
@@ -68,7 +69,7 @@ class Profile extends StatelessWidget {
                     Text(
                       "Pollutrack aims to improve the consciousness of the user to the air pollutants issue. The user can track the amount of pollutants they has been exposed to during the day and learn useful information about them.",
                       style: TextStyle(
-                          // ignore: deprecated_member_use
+                          
                           fontSize: 14, color: Colors.black.withOpacity(0.4)),
                     ),
                     Align(
@@ -86,6 +87,7 @@ class Profile extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
+                    // Pop the current screen and return the name and surname to the Exposure Page
                     Navigator.pop(context, 'Nome Cognome');
                   },
                 ),

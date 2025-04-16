@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pollutrack25/screens/exposure.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class Login extends StatelessWidget {
+  Login({Key? key}) : super(key: key);
 
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+  // text controllers to check the username and password inserted by the user
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // SafeArea widget to avoid system UI overlaps
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(
               left: 24.0, right: 24.0, top: 50, bottom: 20),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            // import the logo image from assets folder (make sure to add the folder in pubspec.yaml)
             Image.asset(
               'assets/logo.png',
               scale: 4,
@@ -40,7 +38,7 @@ class _LoginState extends State<Login> {
             const SizedBox(
               height: 25,
             ),
-
+            // TextField widgets to take the username and password from the user
             TextField(
               controller: userController,
               decoration: InputDecoration(
@@ -73,8 +71,9 @@ class _LoginState extends State<Login> {
                 padding: const EdgeInsets.all(12.0),
                 child: ElevatedButton(
                   onPressed: () {
+                    // Check if the username and password are correct (text field of controllers contains the inserted texts)
                     if(userController.text == 'admin' && passwordController.text == '123456') {
-
+                      // If correct, navigate to the Exposure screen (pushReplacement to remove the login screen from the stack)
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -82,6 +81,7 @@ class _LoginState extends State<Login> {
                         ),
                       );
                       } else {
+                        // If incorrect, show a SnackBar with an error message
                         ScaffoldMessenger.of(context)
                           ..removeCurrentSnackBar()
                           ..showSnackBar(const SnackBar(

@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:pollutrack25/screens/login.dart';
 import 'package:pollutrack25/screens/profile.dart';
 
+//Exposure screen is stateful because it needs to update the UI (date and exposure value) when the user changes the date
 class Exposure extends StatefulWidget {
   const Exposure({super.key});
 
@@ -12,17 +13,17 @@ class Exposure extends StatefulWidget {
 }
 
 class _ExposureState extends State<Exposure> {
-
+  // the state variables are used to store the exposure value and the current date
   double? _exposure;
   DateTime? _currentDate;
 
   @override
   void initState() {
+    // initialize the exposure value and the current date
     _exposure = Random().nextDouble() * 100;
     _currentDate = DateTime.now();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class _ExposureState extends State<Exposure> {
         child: Padding(
             padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 10, bottom: 20),
             child: 
+            // SingleChildScrollView is used to make the screen scrollable
               SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -52,8 +54,10 @@ class _ExposureState extends State<Exposure> {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
+                            // InkWell widget is used to make the icons clickable
                             child: InkWell(
                               onTap: () {
+                                // function that triggers the state when the icon is clicked
                                 _changeDate('previous');
                               },
                               child: const Icon(
@@ -68,6 +72,7 @@ class _ExposureState extends State<Exposure> {
                             padding: const EdgeInsets.all(8.0),
                             child: InkWell(
                               onTap: () {
+                                // function that triggers the state when the icon is clicked
                                 _changeDate('next');
                               },
                               child: const Icon(
@@ -107,8 +112,11 @@ class _ExposureState extends State<Exposure> {
                             Container(
                               margin: const EdgeInsets.only(top: 20, bottom: 10),
                               height: 15,
+                              // ClipRect is used to clip the LinearProgressIndicator
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.all(Radius.circular(10)),
+                                // LinearProgressIndicator is used to show the progress of the exposure value
+                                // value is set to the exposure value divided by 100 to get the percentage
                                 child: LinearProgressIndicator(
                                   value: _exposure! / 100,
                                   backgroundColor: Colors.grey.withOpacity(0.5),
@@ -152,21 +160,28 @@ class _ExposureState extends State<Exposure> {
             IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
+                // logout button; pushReplacement because I don't want the user can go back to the exposure page when logged out
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const Login(),
+                  builder: (context) => Login(),
                 ));
               },
             ),
             IconButton(
               icon: const Icon(Icons.person),
+              // async and await are used to wait for the result of the Profile screen
+              // push because I want the user to be able to go back to the exposure page
               onPressed: () async{
+                // name contains the result of the Profile screen
                 final name =  await Navigator.of(context).push(MaterialPageRoute(builder:  (context) => Profile()));
+                // if the result is not null, show it in a SnackBar
+                if(name != null){
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Name updated! New name: $name'),
                     duration: const Duration(seconds: 3),
                   ),
                 );
+                }
                 
               },
             ),
@@ -175,6 +190,8 @@ class _ExposureState extends State<Exposure> {
       ),
     );
   }
+// function that changes the date and the exposure value when the user clicks on the icons
+// setState is used to trigger the state of the widget
 void _changeDate(String direction) {
   setState(() {
     if (direction == 'previous') {
