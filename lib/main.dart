@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pollutrack25/models/dataProvider.dart';
 import 'package:pollutrack25/screens/login.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +13,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider(create: (context) => DataProvider(),
+      child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -23,6 +26,6 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Login(),
-    );
+    ),);
   }
 }
