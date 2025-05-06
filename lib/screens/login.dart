@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pollutrack25/screens/exposure.dart';
+import 'package:pollutrack25/screens/onboarding.dart';
+import 'package:pollutrack25/utils/impact.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
@@ -7,6 +11,7 @@ class Login extends StatelessWidget {
   // text controllers to check the username and password inserted by the user
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final Impact impact = Impact();
 
   @override
   Widget build(BuildContext context) {
@@ -70,16 +75,32 @@ class Login extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Check if the username and password are correct (text field of controllers contains the inserted texts)
-                    if(userController.text == 'admin' && passwordController.text == '123456') {
-                      // If correct, navigate to the Exposure screen (pushReplacement to remove the login screen from the stack)
-                      Navigator.pushReplacement(
+                  onPressed: () async {
+                    // check if credentials are correct
+                    final result = await impact.getAndStoreTokens(userController.text, passwordController.text);
+                    // If correct, store the username and password in SharedPreferences
+                    // and navigate to the Exposure screen (pushReplacement to remove the login screen from the stack)
+                    if (result == 200) {
+                      final sp = await SharedPreferences.getInstance();
+                      await sp.setString('username', userController.text);
+                      await sp.setString('password', passwordController.text);
+                      final onboarding_completed = await sp.getBool('onboarding_completed');
+                      if(onboarding_completed == null || onboarding_completed == false){
+                        Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  const Exposure(),
+                          builder: (context) => Onboarding(),
                         ),
                       );
+                      }
+                      else{
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Exposure(),
+                          ),
+                        );
+                      }
                       } else {
                         // If incorrect, show a SnackBar with an error message
                         ScaffoldMessenger.of(context)

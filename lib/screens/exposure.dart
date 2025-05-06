@@ -5,6 +5,7 @@ import 'package:pollutrack25/screens/profile.dart';
 import 'package:pollutrack25/utils/line_chart_HR.dart';
 import 'package:pollutrack25/utils/line_chart_pm25.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 //Exposure screen is stateful because it needs to update the UI (date and exposure value) when the user changes the date
 class Exposure extends StatelessWidget {
@@ -33,7 +34,25 @@ class Exposure extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text("Hello, User", style: TextStyle(fontSize: 36)),
+                        FutureBuilder(
+                          future: SharedPreferences.getInstance(),
+                          builder: ((context, snapshot) {
+                            if(snapshot.hasData){
+                              final sp = snapshot.data as SharedPreferences;
+                              if(sp.getString('name') == null){
+                                return Text("Hello, User", style: TextStyle(fontSize: 36));
+                              }
+                              else{
+                                  final name = sp.getString('name');
+                                  return Text("Hello, $name", style: TextStyle(fontSize: 36));
+                              }
+                            }
+                            else{
+                              return CircularProgressIndicator();
+                            }
+                            
+                          }),
+                        ),
                         Spacer(),
                         IconButton(
                           icon: const Icon(Icons.person),
@@ -41,18 +60,6 @@ class Exposure extends StatelessWidget {
                             await Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => Profile(),
-                              ),
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Consumer<DataProvider>(
-                                  builder: (context, provider, child) {
-                                    return Text(
-                                      'Name updated! New name: ${provider.name} ${provider.surname}',
-                                    );
-                                  },
-                                ),
-                                duration: const Duration(seconds: 3),
                               ),
                             );
                           },
