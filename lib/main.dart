@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pollutrack25/models/dataProvider.dart';
-import 'package:pollutrack25/screens/login.dart';
+import 'package:pollutrack25/screens/splash.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             seedColor: const Color(0xFF2b5a4d)),
         useMaterial3: true,
       ),
-      home: Login(),
+      home: Splash(),
     ),);
   }
 }

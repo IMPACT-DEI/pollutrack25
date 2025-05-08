@@ -9,7 +9,7 @@ class Impact{
   static String tokenEndpoint = 'gate/v1/token/';
   static String refreshEndpoint = 'gate/v1/refresh/';
 
-//This method allows to refrsh the stored JWT in SharedPreferences
+//This method allows to refresh the stored JWT in SharedPreferences
   Future<int> refreshTokens() async {
     //Create the request
     final url = Impact.baseUrl + Impact.refreshEndpoint;
