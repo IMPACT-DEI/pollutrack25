@@ -64,7 +64,7 @@ class _OnboardingState extends State<Onboarding> {
 
       Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Exposure()),
+                    MaterialPageRoute(builder: (context) => Exposure()),
                   );
     }
   }
@@ -190,7 +190,7 @@ class _OnboardingState extends State<Onboarding> {
                   await _setOnboardingCompleted();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => const Exposure()),
+                    MaterialPageRoute(builder: (context) => Exposure()),
                   );
                 },
                 child: Text(

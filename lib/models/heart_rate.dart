@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:intl/intl.dart';
+
 class HR{
   final DateTime timestamp;
   final int value;
@@ -8,8 +10,23 @@ class HR{
     required this.timestamp,
     required this.value,
   });
+
+  HR.fromJson(String date, Map<String, dynamic> json) :
+      timestamp = DateFormat('yyyy-MM-dd HH:mm:ss').parse('$date ${json["time"]}'),
+      value = json["value"];
+
+/*
+@override
+  String toString() {
+    return 'HR{timestamp: $timestamp, value: $value}';
+  }
+*/
+
+
 }
 
+
+/*
 List<HR> generateHRdata(DateTime date) {
   Random random = Random();
   List<HR> hrData = [];
@@ -28,4 +45,6 @@ List<HR> generateHRdata(DateTime date) {
   }
 
   return hrData;
+
 }
+*/

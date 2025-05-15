@@ -31,8 +31,8 @@ class LineChartHr extends StatelessWidget{
         'hr': Variable<Map<String,dynamic>, num>(
           accessor: (map) => map['hr'] as num,
           scale: LinearScale(
-            min: 50,
-            max: 100,
+            min: 40,
+            max: 180,
           ),
         ),
       },
