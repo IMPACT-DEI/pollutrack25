@@ -20,7 +20,7 @@ class Splash extends StatelessWidget {
   // Method for navigation SplashPage -> ExposurePage
   void _toExposurePage(BuildContext context) {
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => const Exposure()));
+        .pushReplacement(MaterialPageRoute(builder: (context) => Exposure()));
   } 
 
   // Method for navigation SplashPage -> LoginPage
@@ -34,6 +34,7 @@ class Splash extends StatelessWidget {
   void _checkLogin(BuildContext context) async {
     final result = await Impact().refreshTokens();
     if (result == 200) {
+      
       _toExposurePage(context);
     } else {
       _toLoginPage(context);

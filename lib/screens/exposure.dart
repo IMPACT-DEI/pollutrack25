@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pollutrack25/models/dataProvider.dart';
 import 'package:pollutrack25/screens/profile.dart';
+import 'package:pollutrack25/utils/impact.dart';
 import 'package:pollutrack25/utils/line_chart_HR.dart';
 import 'package:pollutrack25/utils/line_chart_pm25.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 //Exposure screen is stateful because it needs to update the UI (date and exposure value) when the user changes the date
 class Exposure extends StatelessWidget {
-  const Exposure({super.key});
+  Exposure({super.key});
+
+  final Impact impact = Impact();
 
   @override
   Widget build(BuildContext context) {
@@ -82,12 +85,16 @@ class Exposure extends StatelessWidget {
                           // InkWell widget is used to make the icons clickable
                           child: InkWell(
                             onTap: () {
+                              provider.subtractDay();
+
                               // function that calls the provider function passing the date before the current date
+                              /*
                               provider.getDataOfDay(
                                 provider.currentDate.subtract(
                                   const Duration(days: 1),
                                 ),
                               );
+                              */
                             },
                             child: const Icon(Icons.navigate_before),
                           ),
@@ -99,12 +106,16 @@ class Exposure extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
+                              provider.addDay();
+
                               // function that calls the provider function passing the date after the current date
+                              /*
                               provider.getDataOfDay(
                                 provider.currentDate.add(
                                   const Duration(days: 1),
                                 ),
                               );
+                              */
                             },
                             child: const Icon(Icons.navigate_next),
                           ),
@@ -120,6 +131,7 @@ class Exposure extends StatelessWidget {
                       "Total count of all the pollution you've breathed in the day",
                       style: TextStyle(fontSize: 12, color: Colors.black45),
                     ),
+                    /*
                     provider.loading
                         ? Center(child: CircularProgressIndicator.adaptive())
                         : Padding(
@@ -172,6 +184,7 @@ class Exposure extends StatelessWidget {
                             ],
                           ),
                         ),
+                    */
                     const SizedBox(height: 20),
                     const Text("Daily Trend", style: TextStyle(fontSize: 16)),
                     const SizedBox(height: 5),
@@ -228,6 +241,24 @@ class Exposure extends StatelessWidget {
                           aspectRatio: 16 / 9,
                           child: LineChartPm(pmData: provider.pm25),
                         ),
+                    
+                    const SizedBox(height: 30),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                        onPressed: () async {
+                          final result = await impact.getHRData(provider.currentDate);
+                          //print(result);
+                          final message =
+                              result == [] ? 'Request failed' : 'Request successful';
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(content: Text(message)));
+                        },
+                        child: Text('Get HR data')),
+                      ],
+                    ),
                   ],
                 ),
               );
