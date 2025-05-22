@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pollutrack25/screens/exposure.dart';
 import 'package:pollutrack25/screens/onboarding.dart';
-import 'package:pollutrack25/utils/impact.dart';
+import 'package:pollutrack25/services/impact.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 

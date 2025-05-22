@@ -32,7 +32,7 @@ class LineChartPm extends StatelessWidget{
           accessor: (map) => map['pm25'] as num,
           scale: LinearScale(
             min: 0,
-            max: 20,
+            max: 300,
           ),
         ),
       },

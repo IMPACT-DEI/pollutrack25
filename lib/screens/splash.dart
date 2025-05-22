@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pollutrack25/screens/exposure.dart';
 import 'package:pollutrack25/screens/login.dart';
-import 'package:pollutrack25/utils/impact.dart';
+import 'package:pollutrack25/services/impact.dart';
 
 class Splash extends StatelessWidget {
   const Splash({Key? key}) : super(key: key);
