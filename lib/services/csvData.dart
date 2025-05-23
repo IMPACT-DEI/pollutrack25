@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Csvdata {
   getCsvData() async {
@@ -42,48 +39,6 @@ class Csvdata {
 
     //await saveCsvData(csvDataMap);
     return csvDataMap;
-  }
-
-  Future<void> saveCsvData(List<Map<String, dynamic>> csvDataMap) async {
-    final sp = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> convertedData =
-        csvDataMap.map((row) {
-          return row.map(
-            (key, value) => MapEntry(
-              key,
-              value is DateTime ? value.toIso8601String() : value,
-            ),
-          );
-        }).toList();
-    String jsonString = jsonEncode(convertedData);
-    await sp.setString('csv_data', jsonString);
-  }
-
-  Future<List<Map<String, dynamic>>> loadCsvData() async {
-    final sp = await SharedPreferences.getInstance();
-    String? jsonString = sp.getString('csv_data');
-
-    if (jsonString != null) {
-      List<dynamic> decodedList = jsonDecode(jsonString);
-
-      List<Map<String, dynamic>> csvDataMap =
-          decodedList.map<Map<String, dynamic>>((row) {
-            Map<String, dynamic> mappedRow = Map<String, dynamic>.from(
-              row,
-            ); // Converti il tipo
-
-            return mappedRow.map(
-              (key, value) => MapEntry(
-                key,
-                key == 'DateTime' ? DateTime.parse(value) : value,
-              ),
-            );
-          }).toList();
-
-      return csvDataMap;
-    } else {
-      return [];
-    }
   }
 
   Future<List<Map<String, dynamic>>> getCsvDataByDate(DateTime dt) async {
